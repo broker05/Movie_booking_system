@@ -72,15 +72,6 @@ describe('POST /api/bookings/initiate Concurrency & Locking', () => {
     testSeatId = seatRes.rows[0].id;
   });
 
-  afterAll(async () => {
-    // Clean up test data and close pool connection so Jest can exit cleanly
-    await pool.query('DELETE FROM otp_verifications');
-    await pool.query('DELETE FROM bookings');
-    await pool.query('DELETE FROM seats WHERE id = $1', [testSeatId]);
-    await pool.query('DELETE FROM movies WHERE id = $1', [testMovieId]);
-    await pool.query('DELETE FROM users WHERE id = $1', [testUserId]);
-    await pool.end();
-  });
 
   it('should allow only 1 user to reserve the seat and reject all other concurrent requests with 409', async () => {
     const concurrentRequestsCount = 20;

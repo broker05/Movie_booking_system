@@ -21,3 +21,8 @@ backend/logs/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Database Backups & Dumps
+backups/
+*.sql
+*.sql.gz

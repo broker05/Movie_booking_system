@@ -61,7 +61,18 @@
   - **Browser DevTools & Network Tab:** How to filter by `Fetch/XHR`, disable cache, inspect headers and JSON responses, and understand HTTP 304 (Not Modified).
 - **Status/Pending:**
   - Phase 7 Steps 1 through 4 are **100% complete and verified live**!
-  - Next task: **Phase 7 Step 5 — Configure GitHub Actions CI Pipeline (`.github/workflows/ci.yml`)**.
-- **Open Questions:**
-  - When we build the GitHub Actions CI pipeline in the next session, we will run automated tests on GitHub's cloud runners with an ephemeral PostgreSQL service container. Have you ever worked with GitHub Actions or YAML workflows before?
 
+## September 10-11, 2026 Session Log
+- **What was built:**
+  - **Phase 7 Step 5 (GitHub Actions CI Pipeline):** Created `.github/workflows/ci.yml` triggering on push/PR to `main`. Configured isolated job running Oxlint linter, frontend Vite production build check, and backend Jest integration tests against an ephemeral `postgres:15-alpine` service container with automatic healthchecks and migrations. Tested and verified passing 100% green on GitHub.
+  - **Phase 7 Step 6 (Automated Database Disaster Recovery):** Created cross-platform backup and restore scripts ([scripts/backup.ps1](file:///d:/Projects/Movie_Booking_System/scripts/backup.ps1), [scripts/backup.sh](file:///d:/Projects/Movie_Booking_System/scripts/backup.sh), [scripts/restore.ps1](file:///d:/Projects/Movie_Booking_System/scripts/restore.ps1), [scripts/restore.sh](file:///d:/Projects/Movie_Booking_System/scripts/restore.sh)). Added `backups/` and `*.sql` to `.gitignore`. Successfully executed live Disaster Recovery Drill: simulated catastrophic data wipe via `TRUNCATE TABLE movies CASCADE;` (0 movies, 0 seats) and fully restored to 4 movies and 240 seats using `restore.ps1`.
+  - **Educational Notes:** Created [Notes/ci.md](file:///d:/Projects/Movie_Booking_System/Notes/ci.md) and [Notes/backup.md](file:///d:/Projects/Movie_Booking_System/Notes/backup.md).
+- **What was taught/learned:**
+  - **CI Ephemeral Environments vs Local Environments:** Why tests run on sterile GitHub Linux VMs to catch "it works on my machine" and forgotten unpushed files.
+  - **Docker on Windows vs Linux:** Why Windows requires Docker Desktop / WSL2 (lack of native Linux kernel namespaces/cgroups) while Linux runs native background systemd daemons.
+  - **The 4 Pillars of Backups:** Security (`.gitignore`), fail-fast pre-flight checks, unique dynamic timestamps, `--clean --if-exists` flags, and gzip compression.
+  - **Automated Retention:** Pruning backups older than 7 days to prevent disk exhaustion.
+  - **`DELETE` vs `TRUNCATE CASCADE`:** How relational foreign keys block blind deletes unless cascaded.
+- **Status/Pending:**
+  - Phase 7 Steps 1 through 6 are **100% complete and verified**!
+  - Next task: **Phase 7 Step 7 — Deployment Track A (Self-Hosted VPS)**.

@@ -12,6 +12,8 @@ yarn-error.log
 .env.test
 .env.production
 Google_OAuth.json
+movie-booking-server_key.pem
+
 
 # Logs
 logs

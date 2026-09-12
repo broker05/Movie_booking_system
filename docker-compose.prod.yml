@@ -76,8 +76,13 @@ services:
     container_name: movie_booking_prod_frontend
     restart: always
     ports:
-      # Only the frontend/Nginx is exposed to the public host
-      - "${FRONTEND_PORT:-8081}:80"
+      # Expose both HTTP (80) and HTTPS (443) to the public host
+      - "${FRONTEND_PORT:-80}:80"
+      - "443:443"
+    volumes:
+      # Read-only mount of host SSL certificates into Nginx
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
     depends_on:
       - backend
     networks:

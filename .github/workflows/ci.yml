@@ -108,7 +108,7 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            cd ~/Movie_Booking_System
+            cd ~/Movie_booking_system
             git pull origin main
             docker compose -f docker-compose.prod.yml up -d --build
             docker image prune -f

@@ -76,3 +76,26 @@
 - **Status/Pending:**
   - Phase 7 Steps 1 through 6 are **100% complete and verified**!
   - Next task: **Phase 7 Step 7 — Deployment Track A (Self-Hosted VPS)**.
+
+## September 12-13, 2026 Session Log
+- **What was built:**
+  - **Phase 7 Step 7.1 (Cloud Infrastructure Provisioning):** Provisioned an Ubuntu 24.04 LTS VM on Microsoft Azure for Students (`movie-booking-server`) in East Asia with Public IP `104.208.80.230`, 2 vCPUs, and secured RSA SSH key pair.
+  - **Phase 7 Step 7.2 (Server Hardening & Firewall):** Hardened server with UFW firewall (ports 22, 80, 443 open; port 5432 shielded). Configured Windows `icacls` permissions and created global SSH shortcut `ssh movie-server` in `~/.ssh/config`.
+  - **Phase 7 Step 7.3 (Production Runtime & Optimization):** Configured 2GB Linux Swap Space on SSD. Installed official Docker Engine v29.8 and Docker Compose v5.5. Created automated provisioning script [scripts/setup-server.sh](file:///d:/Projects/Movie_Booking_System/scripts/setup-server.sh).
+  - **Phase 7 Step 7.4 (Application Orchestration):** Cloned repo to VPS, configured production environment variables, spun up production container stack via `docker-compose.prod.yml`, diagnosed and resolved host volume permissions for non-root container logging (`USER node`), seeded database with 4 movies and 240 seats, verified live via public IP.
+  - **Phase 7 Step 7.5 (Domain Name & DNS):** Claimed custom domain `rhrony05.me` via GitHub Student Pack (Namecheap). Mapped DNS `A Record` to `104.208.80.230` and `CNAME` for `www`. Verified global DNS propagation via Cloudflare and Google resolvers.
+  - **Phase 7 Step 7.6 (SSL/TLS Encryption with Let's Encrypt):** Configured Nginx with HTTP-to-HTTPS 301 redirection on port 80 and SSL termination on port 443. Mounted `/etc/letsencrypt` in Docker Compose. Issued official certificates via Certbot for `rhrony05.me` and `www.rhrony05.me`. Verified live trusted HTTPS green padlock and successful production Google OAuth login!
+  - **Architecture & Automation Artifacts:** Created [scripts/deploy.sh](file:///d:/Projects/Movie_Booking_System/scripts/deploy.sh) for 1-command deployments and created comprehensive reference guide [Notes/vps_deployment_and_ssl.md](file:///d:/Projects/Movie_Booking_System/Notes/vps_deployment_and_ssl.md) detailing the AI-driven 2-script pattern and developer playbook.
+- **What was taught/learned:**
+  - **VPS vs Brand:** VPS as a technical category (virtualized slice) vs AWS/Azure/DigitalOcean marketing names.
+  - **VMs vs Containers:** Hardware virtualization with dedicated kernel vs process virtualization sharing the host kernel.
+  - **The Universal 2-Script Pattern:** Separation between base machine hardening (`setup-server.sh`, run once) and application deployment (`deploy.sh`, run on every release).
+  - **Bind Mounts vs Named Volumes:** Why bind mounts fail with non-root containers (`USER node`) and why named volumes manage permissions automatically.
+  - **DNS Resolution & Caching:** Authoritative nameservers vs local ISP recursive resolvers, TTL caching, and testing host headers with `curl -H`.
+  - **ACME Protocol & SSL:** Automated certificate issuance via Let's Encrypt and Certbot standalone verification.
+- **Status/Pending:**
+  - Phase 7 Steps 7.1 through 7.6 are **100% complete and verified live** at `https://rhrony05.me`!
+  - Up next: **Phase 7 Step 7.7 (Automated Continuous Deployment - CD Pipeline via GitHub Actions)**.
+- **Open Questions:**
+  - For the CD pipeline, we will store our VPS SSH private key and IP inside GitHub Secrets. Have you ever configured GitHub Actions Secrets before?
+
